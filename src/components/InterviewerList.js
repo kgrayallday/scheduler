@@ -6,7 +6,15 @@ function InterviewerList(props) {
 
   const { interviewers } = props
 
-  const list = interviewers.map(inter => <InterviewerListItem id={inter.id} name={inter.name} avatar={inter.avatar} selected={inter.id === props.interviewer}/>);
+  const list = interviewers.map(inter =>
+  <InterviewerListItem 
+    key={inter.id} 
+    name={inter.name} 
+    avatar={inter.avatar} 
+    selected={inter.id === props.interviewer}
+    setInterviewer={event => props.setInterviewer(inter.id)}
+    />
+  );
 
   return (
     <section className="interviewers">
