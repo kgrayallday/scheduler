@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions/dist/preview";
+// import { action } from "@storybook/addon-actions/dist/preview";
 import React from "react";
 
 function Show(props) {
