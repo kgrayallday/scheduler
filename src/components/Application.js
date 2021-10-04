@@ -3,7 +3,7 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import axios from "axios";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 
 export default function Application() {
@@ -14,12 +14,15 @@ export default function Application() {
     appointments: {}
   });
 
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-  
   const setDay = day =>setState({ ...state, day });
   // const setDays = days =>setState(prev => ({ prev, days}));  --- removed by compass
-
-  const list = dailyAppointments.map(appointment => <Appointment key={appointment.id} {...appointment} /> );
+  
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  
+  const list = dailyAppointments.map(appointment => {
+    const interview = getInterview(state, appointment.interview);
+    return (<Appointment key={appointment.id} {...appointment} interview={interview} />)
+  });
 
   useEffect(()=>{
     Promise.all([
@@ -27,7 +30,7 @@ export default function Application() {
       axios.get('/api/appointments'), //res.data[0] = 1 : {id, time, interview{...}}
       axios.get('/api/interviewers'), //res.data[0] = 1 : {avatar, id, name}
     ]).then((all) => {  
-      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviews: all[2].data
+      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data
       }))
     });
   }, []);
