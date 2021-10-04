@@ -33,11 +33,33 @@ export function getInterview(state, interview) {
 
   // interview object contains { student: "name as string", interviewer: int ref interviewers id}
 
-  // needs to return obj of { student: "string name", interviewer: {} } for displaying in each of our appointments 
-  // given interview provide student + interview? 
-  // from the current state, get the interviewer id and return the interviewer obj
-
   const getStateInterviewerFromId = state.interviewers[interview.interviewer];
   return {interviewer: getStateInterviewerFromId, student:interview.student}
+
+}
+
+// returns interviewers available for given day
+export function getInterviewersForDay(state, day) {
+
+  // if no days in stateObj return empty array
+  if (state.days.length === 0) {
+    return [];
+  }
+
+  // filter only days which match given day
+  const filteredDays = state.days.filter(dayObj => dayObj.name === day);
+  console.log('filtered days >>>', filteredDays)
+
+  // if the day does not exist in state obj return empty array
+  if (filteredDays.length === 0) {
+    return [];
+  }
+
+  // pull out all the interviewers for given day
+  const interviewers = filteredDays[0].interviewers;
+  console.log('interviewers >>>', interviewers)
+  // return interviewers as array
+  const mappedInterviewers = interviewers.map(ids => state.interviewers[ids]);
+  return mappedInterviewers;
 
 }
