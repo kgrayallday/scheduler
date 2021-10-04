@@ -3,7 +3,7 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import axios from "axios";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 
 export default function Application() {
@@ -11,17 +11,29 @@ export default function Application() {
   const [state, setState] = useState({
     day: 'Monday',
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
   const setDay = day =>setState({ ...state, day });
-  // const setDays = days =>setState(prev => ({ prev, days}));  --- removed by compass
   
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  
+  const Interviewers = getInterviewersForDay( state, state.day);
+
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
+
   const list = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
-    return (<Appointment key={appointment.id} {...appointment} interview={interview} />)
+    return (
+      <Appointment 
+        key={appointment.id} 
+        {...appointment} 
+        interview={interview} 
+        interviewers={Interviewers}
+        bookInterview={bookInterview}
+      />)
   });
 
   useEffect(()=>{
