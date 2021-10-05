@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function useVisualMode(initial) {
   const [history, setHistory] = useState([initial])
 
   function transition(mode, replace = false) {
     
-    // prev is the latest version of state, without prev youre relying on global
+    // prev is the latest version of state, without prev you're relying on global
     // done with andy
     setHistory((prev)=>{
       const newHistory = [ ...prev ];
@@ -19,11 +19,8 @@ export default function useVisualMode(initial) {
 
   }
 
-  // to do same as above
+  // TODO fix below same as above
   function back() {
-    
-    if(history.length > 1) {
-      history.pop();
       setHistory((prev)=> {
         const newHistory = [ ...prev ];
         if(newHistory.length > 1){
@@ -31,7 +28,7 @@ export default function useVisualMode(initial) {
         }
         return newHistory
       });
-    }
+
   }
 
   return { mode: history[history.length-1], transition, back };
