@@ -15,26 +15,53 @@ export default function Application() {
     interviewers: {}
   });
 
-  const setDay = day =>setState({ ...state, day });
+  const setDay = day => setState({ ...state, day });
   
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const Interviewers = getInterviewersForDay( state, state.day);
+  const dailyAppointments = getAppointmentsForDay(state, state.day); // gets appointments for given day for displaying in app appointments
+  const interviewers = getInterviewersForDay( state, state.day); // gets  available interviewers for a given day 
 
+  
+  
+  // books the interview and calls save to put to db via save in application 
   function bookInterview(id, interview) {
-    console.log(id, interview);
+
+    const appointment = { ...state.appointments[id], interview: { ...interview } };
+    const appointments = { ...state.appointments, [id]: appointment };
+
+    return axios.put(`/api/appointments/${id}`, {interview})
+      .then(() => { setState({ ...state, appointments })})
+      .catch(error => console.log(error.message));
   }
 
-  const list = dailyAppointments.map(appointment => {
-    const interview = getInterview(state, appointment.interview);
+  // cancel Interview 
+  function cancelInterview(id) {
+
+    const appointment = { ...state.appointments[id], interview: null };
+    const appointments = { ...state.appointments, [id]: appointment };
+
+    return axios.delete(`/api/appointments/${id}`)
+      .then(() => { setState({ ...state, appointments })})
+      .catch(error => console.log(error.message))
+  }
+
+  const appointmentList = dailyAppointments.map(appointment => {
+
+    let interview = getInterview(state, appointment.interview);
     return (
       <Appointment 
         key={appointment.id} 
         {...appointment} 
         interview={interview} 
-        interviewers={Interviewers}
+        interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+        setState={setState}
+        state={state}
       />)
+      
   });
+
+
 
   useEffect(()=>{
     Promise.all([
@@ -46,8 +73,6 @@ export default function Application() {
       }))
     });
   }, []);
-
-
 
   return (
     <main className="layout">
@@ -66,7 +91,7 @@ export default function Application() {
         />
       </section>
       <section className="schedule">
-        { list }
+        { appointmentList }
       </section>
     </main>
   );
