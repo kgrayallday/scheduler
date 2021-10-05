@@ -48,7 +48,6 @@ export function getInterviewersForDay(state, day) {
 
   // filter only days which match given day
   const filteredDays = state.days.filter(dayObj => dayObj.name === day);
-  console.log('filtered days >>>', filteredDays)
 
   // if the day does not exist in state obj return empty array
   if (filteredDays.length === 0) {
@@ -57,7 +56,6 @@ export function getInterviewersForDay(state, day) {
 
   // pull out all the interviewers for given day
   const interviewers = filteredDays[0].interviewers;
-  console.log('interviewers >>>', interviewers)
   // return interviewers as array
   const mappedInterviewers = interviewers.map(ids => state.interviewers[ids]);
   return mappedInterviewers;
