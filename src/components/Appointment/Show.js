@@ -1,7 +1,8 @@
 // import { action } from "@storybook/addon-actions/dist/preview";
 import React from "react";
 
-function Show(props) {
+export default function Show(props) {
+  // console.log('㉿ Show props ', props);
 
   return(
     <main className="appointment__card appointment__card--show">
@@ -30,6 +31,4 @@ function Show(props) {
       </section>
     </main>
   );
-}
-
-export default Show;
+};
