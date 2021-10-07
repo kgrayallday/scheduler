@@ -25,18 +25,12 @@ export default function useApplicationData() {
 
     if(modifier === BOOKING) {
       daysClone[index].spots--;
-
     }
     if(modifier === CANCEL) {
       daysClone[index].spots++;
-
     }
-  
-    console.log('DAYS CLONE SPOTS: ', daysClone[index].spots)
-    console.log('state before newState', state)
+
     const newState = { ...state, days: daysClone }
-    // console.log('newState', newState)
-    console.log('days clone', daysClone)
  
     setState(newState);
 
@@ -49,7 +43,6 @@ export default function useApplicationData() {
 
     const appointments = { ...state.appointments, [id]: appointment };
 
-    const newState = { ...state, appointments };
     return axios.put(`/api/appointments/${id}`, {interview})
       .then(() => {
         setState({ ...state, appointments });

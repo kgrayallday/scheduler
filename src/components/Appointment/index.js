@@ -20,9 +20,6 @@ const ERROR_SAVE = 'ERROR_SAVE';
 const ERROR_DELETE = 'ERROR_DELETE';
 
 export default function Appointment(props) {
-  // console.log(' ㉿ Appointment props >>> ', props)
-
-  // console.log('㉿ Appointment Component Call')
   
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -30,7 +27,6 @@ export default function Appointment(props) {
 
   // saves interview to db
   function save(name, interviewer) {
-    // console.log('㉿ save fn call')
     const interview = {
       student: name,
       interviewer
@@ -46,8 +42,6 @@ export default function Appointment(props) {
 
   // deletes appointment/interview from db
   function destroy(){
-    // console.log('㉿  destroy fn call')
-    // console.log('㉿ destroy fn props', props)
     
     transition(DELETING, true);
 
@@ -56,8 +50,6 @@ export default function Appointment(props) {
       .then(()=> (transition(EMPTY)))
       .catch(error => transition(ERROR_DELETE, true))
   }
-
-  // console.log('㉿ index props >>> ', props);
 
   return (
     <article className="appointment">
@@ -71,8 +63,6 @@ export default function Appointment(props) {
       {mode === EDIT && <Form interviewers={props.interviewers} interviewer={props.interview.interviewer.id} student={props.interview.student} name={props.interview.student} onCancel={()=> back()} onSave={save}/> }
       {mode === ERROR_SAVE && <Error message={ 'Could not save...' } onClose={() => back()} />}
       {mode === ERROR_DELETE && <Error message={ 'Could not delete...' } onClose={() => back()} />}
-
-      
     </article>
   )
 };
