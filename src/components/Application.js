@@ -1,30 +1,35 @@
-import React, { useState, useEffect } from "react";
-import "components/Application.scss";
+import React from "react";
+import "styles/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 import useApplicationData from "../hooks/useApplicationData";
 
 export default function Application() {
-
   const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
-  const appointmentsByDay = getAppointmentsForDay(state, state.day); // gets appointments for given day for displaying in app appointments
-  const interviewersByDay = getInterviewersForDay( state, state.day); // gets  available interviewers for a given day 
   
-  const appointmentList = appointmentsByDay.map(appointment => {
+  // gets appointments for current day for displaying in app appointments
+  const currentDay = getAppointmentsForDay(state, state.day);
+  
+  // gets  available interviewers for current day 
+  const currentInterviewers = getInterviewersForDay( state, state.day);
+  
+  // generate list used for printing out appointments to Appointment component
+  const appointmentList = currentDay.map(appointment => {
     const interview = getInterview(state, appointment.interview)
     return (
       <Appointment 
         key={appointment.id} 
         {...appointment} 
         interview = {interview}
-        interviewers={interviewersByDay}
+        interviewers={currentInterviewers}
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
       />
     )
   });
 
+  // return JSX
   return (
     <main className="layout">
       <section className="sidebar">
