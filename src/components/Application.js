@@ -8,15 +8,11 @@ import useApplicationData from "../hooks/useApplicationData";
 export default function Application() {
 
   const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
-
-  // console.log('㉿ Application state from useApplicationData', state)
-
   const appointmentsByDay = getAppointmentsForDay(state, state.day); // gets appointments for given day for displaying in app appointments
   const interviewersByDay = getInterviewersForDay( state, state.day); // gets  available interviewers for a given day 
   
   const appointmentList = appointmentsByDay.map(appointment => {
     const interview = getInterview(state, appointment.interview)
-    // console.log(' ㉿ "appointment" in app ', appointment)
     return (
       <Appointment 
         key={appointment.id} 
