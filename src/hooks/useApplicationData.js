@@ -1,69 +1,63 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-
 export default function useApplicationData() {
-
   const [ state, setState ] = useState({
     day: 'Monday',
     days: [],
     appointments: {},
     interviewers: {}
   });
-
   const setDay = day => setState({ ...state, day });
   
-  function updateSpots(modifier) {
-    const BOOKING = 'BOOKING';
-    const CANCEL = 'CANCEL';
+  // update spots remaining in the DayList side nav UI
+  function updateSpots(state) {
     let daysClone = [ ...state.days ];
-    const foundDay = state.days.find(dayObj => dayObj.name === state.day);
-    const index = foundDay.id -1;
+    const currentDay = state.days.find(dayObj => dayObj.name === state.day);
+    const index = currentDay.id -1;
+    let countNulls = 0;
 
-    if(modifier === BOOKING) {
-      daysClone[index].spots--;
-    }
-    if(modifier === CANCEL) {
-      daysClone[index].spots++;
+    // calculate spots remaining by counting null interviews of currentDay
+    for (let interviewId of currentDay.appointments) {
+      if (state.appointments[interviewId].interview === null) {
+        countNulls++
+      }
     }
 
-    const newState = { ...state, days: daysClone }
+    // update spots available in currentDay
+    daysClone[index].spots = countNulls;
+    const freshState = { ...state, days: daysClone }
  
-    setState(newState);
+    // set fresh state
+    setState(freshState);
 
   }
 
-  // books the interview and calls save to put to db via save in application 
+  // books the interview and puts interview to db 
   function bookInterview(id, interview) {
 
     const appointment = { ...state.appointments[id], interview: { ...interview } };
     const appointments = { ...state.appointments, [id]: appointment };
+    const freshState = { ...state, appointments};
     return axios.put(`/api/appointments/${id}`, {interview})
-      .then(() => {
-        setState({ ...state, appointments }, () => {
-          updateSpots('BOOKING');
-        });
-      })
+      .then(() => { updateSpots(freshState); })
   }
 
-  // cancel Interview
+  // cancel Interview and delete interview from db
   function cancelInterview(id) {
     const appointment = { ...state.appointments[id], interview: null };
     const appointments = { ...state.appointments, [id]: appointment };
+    const freshState = { ...state, appointments};
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => { 
-        setState({ ...state, appointments }, () => {
-          updateSpots('CANCEL');
-        })
-      });
+      .then(() => { updateSpots(freshState); });
   };
 
-
+  // sets initial state of application via db
   useEffect(()=>{
     Promise.all([
-      axios.get('/api/days'), //res.data[0] = [appointments[...], interviewers[...], name, spots]
-      axios.get('/api/appointments'), //res.data[0] = 1 : {id, time, interview{...}}
-      axios.get('/api/interviewers'), //res.data[0] = 1 : {avatar, id, name}
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers'),
     ]).then((all) => {  
       setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data
       }))
