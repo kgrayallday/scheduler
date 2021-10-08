@@ -35,6 +35,7 @@ describe('appointments', () => {
 
   it('should cancel an interview', () => {
     cy.get('[alt=Delete]')
+      .first()
       .click({ force: true });
   
     cy.contains('Confirm').click();

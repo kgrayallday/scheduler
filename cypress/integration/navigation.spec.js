@@ -9,5 +9,4 @@ it('should navigate to Tuesday', () => {
   cy.contains('Tuesday')
   .click()
   .should('have.class', 'day-list__item--selected');
-    
 });
