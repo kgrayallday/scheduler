@@ -26,7 +26,7 @@ export default function Appointment(props) {
   );
 
   // saves interview to db
-  function save(name, interviewer) {
+  function save(name, interviewer) { // changed name to student... i think name was pasted form something
     const interview = {
       student: name,
       interviewer
@@ -36,7 +36,8 @@ export default function Appointment(props) {
     
     props
       .bookInterview(props.id, interview)
-      .then(() => { transition(SHOW) })
+      .then(() => { 
+        transition(SHOW) })
       .catch(error => transition(ERROR_SAVE, true));
   }
 

@@ -24,7 +24,6 @@ function InterviewerList(props) {
     </section>
   );
 
-
 }
 
 InterviewerList.propTypes = {

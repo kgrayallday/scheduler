@@ -23,7 +23,6 @@ export function getInterview(state, interview) {
 
   const getStateInterviewerFromId = state.interviewers[interview.interviewer];
   return {interviewer: getStateInterviewerFromId, student:interview.student}
-
 };
 
 // returns interviewers available for given day
