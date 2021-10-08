@@ -11,22 +11,22 @@ export default function Application() {
   // gets appointments for current day for displaying in app appointments
   const currentDay = getAppointmentsForDay(state, state.day);
   
-  // gets  available interviewers for current day 
+  // gets  available interviewers for current day
   const currentInterviewers = getInterviewersForDay( state, state.day);
   
   // generate list used for printing out appointments to Appointment component
   const appointmentList = currentDay.map(appointment => {
-    const interview = getInterview(state, appointment.interview)
+    const interview = getInterview(state, appointment.interview);
     return (
-      <Appointment 
-        key={appointment.id} 
-        {...appointment} 
+      <Appointment
+        key={appointment.id}
+        {...appointment}
         interview = {interview}
         interviewers={currentInterviewers}
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
       />
-    )
+    );
   });
 
   // return JSX

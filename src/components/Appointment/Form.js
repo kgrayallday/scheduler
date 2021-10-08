@@ -4,7 +4,7 @@ import Button from "../Button";
 
 export default function Form(props) {
   const [ name, setName ] = useState(props.name || '');
-  const [ interviewer, setInterviewer ] = useState(props.interviewer || null/* props.interviewers[0].id --for testing */);
+  const [ interviewer, setInterviewer ] = useState(props.interviewer || null);
   const [error, setError] = useState("");
   
   const validate = () => {
@@ -21,17 +21,17 @@ export default function Form(props) {
 
     setError('');
     props.onSave(name, interviewer);
-  }
+  };
 
   const reset = () => {
     setName("");
     setInterviewer(null);
-  }
+  };
 
   const cancel = () => {
     reset();
     props.onCancel();
-  }
+  };
 
   return(
     <main className="appointment__card appointment__card--create">
@@ -57,4 +57,4 @@ export default function Form(props) {
       </section>
     </main>
   );
-};
+}

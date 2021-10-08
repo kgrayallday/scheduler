@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 
 function InterviewerList(props) {
 
-  const { interviewers } = props
+  const { interviewers } = props;
 
   const list = interviewers.map(inter =>
-  <InterviewerListItem 
-    key={inter.id} 
-    name={inter.name} 
-    avatar={inter.avatar} 
-    selected={inter.id === props.interviewer}
-    setInterviewer={event => props.setInterviewer(inter.id)}
+   <InterviewerListItem 
+      key={inter.id} 
+      name={inter.name} 
+      avatar={inter.avatar} 
+      selected={inter.id === props.interviewer}
+      setInterviewer={event => props.setInterviewer(inter.id)}
     />
   );
 

@@ -26,7 +26,7 @@ export default function Appointment(props) {
   );
 
   // saves interview to db
-  function save(name, interviewer) { // changed name to student... i think name was pasted form something
+  function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
@@ -36,10 +36,9 @@ export default function Appointment(props) {
     
     props
       .bookInterview(props.id, interview)
-      .then(() => { 
-        transition(SHOW) })
+      .then(() => { transition(SHOW) })
       .catch(error => transition(ERROR_SAVE, true));
-  }
+  };
 
   // deletes appointment/interview from db
   function destroy(){
@@ -49,13 +48,13 @@ export default function Appointment(props) {
     props
       .cancelInterview(props.id)
       .then(()=> (transition(EMPTY)))
-      .catch(error => transition(ERROR_DELETE, true))
-  }
+      .catch(error => transition(ERROR_DELETE, true));
+  };
 
   return (
     <article className="appointment">
       <Header time={props.time} />
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} /> } 
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} /> }
       {mode === SHOW && <Show student={props.interview.student} interviewer={props.interview.interviewer} onDelete={() => transition(CONFIRM) } onEdit={ () => transition(EDIT) } /> }
       {mode === CREATE && <Form interviewers={props.interviewers} onCancel={()=> back()} onSave={save} /> }
       {mode === SAVING && <Status message={ 'Saving...' } /> }
@@ -65,5 +64,5 @@ export default function Appointment(props) {
       {mode === ERROR_SAVE && <Error message={ 'Could not save...' } onClose={() => back()} />}
       {mode === ERROR_DELETE && <Error message={ 'Could not delete...' } onClose={() => back()} />}
     </article>
-  )
+  );
 };

@@ -42,6 +42,9 @@
     "@testing-library/react": "^8.0.7",
     "@testing-library/react-hooks": "^7.0.2",
     "babel-loader": "^8.0.5",
+    "eslint": "^7.32.0",
+    "eslint-config-lighthouselabs": "github:lighthouse-labs/eslint-config-lighthouselabs",
+    "eslint-plugin-react": "^7.26.1",
     "node-sass": "^4.14.0",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.9.0"
