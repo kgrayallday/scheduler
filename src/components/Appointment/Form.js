@@ -4,7 +4,7 @@ import Button from "../Button";
 
 export default function Form(props) {
   const [ name, setName ] = useState(props.name || '');
-  const [ interviewer, setInterviewer ] = useState(props.interviewer || null/* props.interviewers[0].id /* set to stop error of not selecting interviewer during test */);
+  const [ interviewer, setInterviewer ] = useState(props.interviewer || null/* props.interviewers[0].id --for testing */);
   const [error, setError] = useState("");
   
   const validate = () => {
@@ -13,10 +13,10 @@ export default function Form(props) {
       return;
     }
 
-    // if (!interviewer) {
-    //   setError('Interviewer cannot be blank');
-    //   return;
-    // }
+    if (!interviewer) {
+      setError('Interviewer cannot be blank');
+      return;
+    }
 
     setError('');
     props.onSave(name, interviewer);
