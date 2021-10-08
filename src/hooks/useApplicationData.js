@@ -16,11 +16,8 @@ export default function useApplicationData() {
   function updateSpots(modifier) {
     const BOOKING = 'BOOKING';
     const CANCEL = 'CANCEL';
-
     let daysClone = [ ...state.days ];
-    
     const foundDay = state.days.find(dayObj => dayObj.name === state.day);
-    
     const index = foundDay.id -1;
 
     if(modifier === BOOKING) {
@@ -40,26 +37,24 @@ export default function useApplicationData() {
   function bookInterview(id, interview) {
 
     const appointment = { ...state.appointments[id], interview: { ...interview } };
-
     const appointments = { ...state.appointments, [id]: appointment };
-
     return axios.put(`/api/appointments/${id}`, {interview})
       .then(() => {
-        setState({ ...state, appointments });
-        updateSpots('BOOKING');
+        setState({ ...state, appointments }, () => {
+          updateSpots('BOOKING');
+        });
       })
   }
 
-  // cancel Interview 
+  // cancel Interview
   function cancelInterview(id) {
     const appointment = { ...state.appointments[id], interview: null };
     const appointments = { ...state.appointments, [id]: appointment };
-
     return axios.delete(`/api/appointments/${id}`)
       .then(() => { 
-        setState({ ...state, appointments })
-        updateSpots('CANCEL');
-      
+        setState({ ...state, appointments }, () => {
+          updateSpots('CANCEL');
+        })
       });
   };
 
