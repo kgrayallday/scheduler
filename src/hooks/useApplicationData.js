@@ -10,26 +10,28 @@ export default function useApplicationData() {
   });
   const setDay = day => setState({ ...state, day });
   
-  // update spots remaining in the DayList side nav UI
-  function updateSpots(state) {
-    let daysClone = [ ...state.days ];
-    const currentDay = state.days.find(dayObj => dayObj.name === state.day);
-    const index = currentDay.id - 1;
-    let countNulls = 0;
+  // returns a days array with the new spot count
+  function updateSpot(state) {
 
+    let days = [];
+    let spots = 0;
+
+    // use find to create a hard copy of current day object
+    const currentDay = state.days.find(dayObj => dayObj.name === state.day);
+    
     // calculate spots remaining by counting null interviews of currentDay
     for (let interviewId of currentDay.appointments) {
       if (state.appointments[interviewId].interview === null) {
-        countNulls++;
+        spots++;
       }
     }
 
-    // update spots available in currentDay
-    daysClone[index].spots = countNulls;
-    const freshState = { ...state, days: daysClone };
- 
-    // set fresh state
-    setState(freshState);
+    // update the hard copy of state.day aka newDays by overriding old spots with new
+    const newDay = { ...currentDay, spots }
+
+    // use map to replace the new day obj in days and return as array
+    return days = state.days.map(d => d.name === state.day ? newDay : d);
+
 
   }
 
@@ -40,7 +42,10 @@ export default function useApplicationData() {
     const appointments = { ...state.appointments, [id]: appointment };
     const freshState = { ...state, appointments};
     return axios.put(`/api/appointments/${id}`, {interview})
-      .then(() => { updateSpots(freshState); });
+      .then(() => { 
+        const days = updateSpot(freshState); 
+        setState({ ...state, appointments, days }) 
+      });
   }
 
   // cancel Interview and delete interview from db
@@ -49,7 +54,10 @@ export default function useApplicationData() {
     const appointments = { ...state.appointments, [id]: appointment };
     const freshState = { ...state, appointments};
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => { updateSpots(freshState); });
+      .then(() => {
+        const days = updateSpot(freshState);
+        setState({ ...state, appointments, days })
+      });
   }
 
   // sets initial state of application via db
