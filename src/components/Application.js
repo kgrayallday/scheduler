@@ -1,5 +1,5 @@
 import React from "react";
-import "styles/Application.scss";
+import "./Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
