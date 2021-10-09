@@ -2,7 +2,7 @@
   <img src="./public/images/logo.png"/>
 </p>
 
-A single page application interview scheduler built with React.js. Allows users to book, update and delete interview appointments. 
+A single page application built with React.js which allows users to book, update and delete interview appointments. 
 
 ## Walk-through
 
@@ -17,6 +17,7 @@ A single page application interview scheduler built with React.js. Allows users 
 ![mobile-view](https://github.com/kgrayallday/scheduler/blob/master/docs/mobile-view.png?raw=true)
 
 ## Testing
+---
 
 [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
@@ -24,6 +25,7 @@ A single page application interview scheduler built with React.js. Allows users 
 
 
 ## Setup
+---
 
 clone scheduler-api
 ```sh
@@ -41,7 +43,9 @@ $ npm install
 $ cd your/path/to/scheduler
 $ npm install
 ```
-you will need to run ```npm start``` in both directories to start.
+you will need to run `npm start` from within both directories to to get started.
+
+*Follow the [scheduler-api README](https://github.com/kgrayallday/scheduler-api/blob/master/README.md) for instructions on setting up postgresql environment if using locally*
 
 ## Running Webpack Development Server
 
@@ -51,7 +55,7 @@ npm start
 
 ## Running Jest Test Framework
 
-```sh
+```
 npm test
 ```
 
