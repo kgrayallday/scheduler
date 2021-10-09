@@ -1,8 +1,47 @@
-# Interview Scheduler
+<p align="center">
+  <img src="./public/images/logo.png"/>
+</p>
+
+A single page application interview scheduler built with React.js. Allows users to book, update and delete interview appointments. 
+
+## Walk-through
+
+![general walk-through](https://github.com/kgrayallday/scheduler/blob/master/docs/general.gif?raw=true)
+
+## Error handling
+
+![error handling](https://github.com/kgrayallday/scheduler/blob/master/docs/error-handling.gif?raw=true)
+
+## Responsive Design
+
+![mobile-view](https://github.com/kgrayallday/scheduler/blob/master/docs/mobile-view.png?raw=true)
+
+## Testing
+
+[![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
+![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)
+
 
 ## Setup
 
-Install dependencies with `npm install`.
+clone scheduler-api
+```sh
+git clone git@github.com:kgrayallday/scheduler-api.git
+```
+clone scheduler app
+```sh
+git clone git@github.com:kgrayallday/scheduler.git
+```
+```sh
+$ cd your/path/to/scheduler-api
+$ npm install
+```
+```sh
+$ cd your/path/to/scheduler
+$ npm install
+```
+you will need to run ```npm start``` in both directories to start.
 
 ## Running Webpack Development Server
 
@@ -21,3 +60,13 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Running Cypress
+
+```sh
+npm run Cypress
+```
+
+## Dependencies
+
+
